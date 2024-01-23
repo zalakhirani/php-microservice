@@ -45,7 +45,7 @@ Before you begin, make sure you have the following installed on your machine:
     docker run -it -p 8080:8080 php-microservice
     ```
 
-7. Your Lumen application should now be accessible at [http://0.0.0.0:8080](http://0.0.0.0:8080). You can customize the port in the `docker-compose.yml` file if needed.
+7. Your Lumen application should now be accessible at [http://0.0.0.0:8080](http://0.0.0.0:8080).
 
 ## Testing with Bearer Token
 
