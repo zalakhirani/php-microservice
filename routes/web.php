@@ -13,10 +13,7 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return 'abcd';
-});
-
-$router->group(['middleware' => ['authentication']], function () use ($router) {
-
+$router->group(['prefix' => 'api/users', 'middleware' => ['tokenVerification']], function () use ($router) {
+    $router->get('/{userId}', 'UserController@getUserDetail');
+    $router->get('/', 'UserController@getAllUsers');
 });

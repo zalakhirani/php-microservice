@@ -1,26 +1,213 @@
-# Lumen PHP Framework
+# Docker Installation for Lumen
+This repository contains a Docker setup for running a Lumen application. Lumen is a micro-framework by Laravel, designed for building lightweight and fast microservices.
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://img.shields.io/packagist/dt/laravel/lumen-framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://img.shields.io/packagist/v/laravel/lumen-framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://img.shields.io/packagist/l/laravel/lumen)](https://packagist.org/packages/laravel/lumen-framework)
+## Prerequisites
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+Before you begin, make sure you have the following installed on your machine:
 
-> **Note:** In the years since releasing Lumen, PHP has made a variety of wonderful performance improvements. For this reason, along with the availability of [Laravel Octane](https://laravel.com/docs/octane), we no longer recommend that you begin new projects with Lumen. Instead, we recommend always beginning new projects with [Laravel](https://laravel.com).
+- Docker: [Install Docker](https://docs.docker.com/get-docker/)
+- Docker Compose: [Install Docker Compose](https://docs.docker.com/compose/install/)
 
-## Official Documentation
+## Getting Started
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+1. Clone this repository to your local machine:
 
-## Contributing
+    ```bash
+    git clone https://github.com/zalakhirani/php-microservice.git
+    ```
 
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+2. Navigate to the project directory:
 
-## Security Vulnerabilities
+    ```bash
+    cd php-microservice
+    ```
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+3. Create a copy of the example environment file and customize it:
 
-## License
+    ```bash
+    cp .env.example .env
+    ```
 
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    Update the values in `.env` according to your Lumen application's configuration.
+    For this application add AUTHENTICATION_TOKEN variable, this token will be used as Bearertoken to call the APIs.
+
+4. Build and start the Docker containers:
+
+    ```bash
+    docker build -t php-microservice .
+    ```
+
+    This command will build the necessary Docker images and start the containers in the background.
+
+6. The final step is to run the container you have just built using Docker:
+
+    ```bash
+    docker run -it -p 8080:8080 php-microservice
+    ```
+
+7. Your Lumen application should now be accessible at [http://0.0.0.0:8080](http://0.0.0.0:8080). You can customize the port in the `docker-compose.yml` file if needed.
+
+## Testing with Bearer Token
+
+1. Obtain a Bearer Token:
+
+    Bearer token can be obtained from .env file. It is stored in AUTHENTICATION_TOKEN variable.
+
+2. Make API Requests:
+
+    Use a tool like `curl` or Postman to make requests to your API. Include the Bearer Token in the Authorization header.
+
+    Example:
+
+    ```bash
+    curl -X GET http://localhost/api/resource -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+    ```
+
+    Replace `YOUR_ACCESS_TOKEN` with the actual Bearer Token you obtained from .env.
+
+## User Data Retrieval Endpoint
+
+### Endpoint
+
+- **URL:** `http://localhost/api/users/{id}`
+- **Method:** `GET`
+
+```bash
+curl -X GET http://0.0.0.0:8080/api/users/1 -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```
+
+### Request
+
+- **Headers:**
+  - `Authorization: Bearer YOUR_ACCESS_TOKEN`
+
+### Parameters
+
+- **id (required):** The unique identifier of the user.
+
+### Response
+
+- **Success (200 OK):**
+  - Returns user data in JSON format.
+
+```json
+    {
+        "response": "Success",
+        "data": {
+            "id": 5,
+            "name": "Katie Jane",
+            "email": "katie.jane@gmail.com"
+        }
+    }
+```
+
+- **Error (401 Unauthorized):**
+  - If the access token is missing or invalid.
+
+```json
+    {
+        "response": "Failure",
+        "message": "Invalid or missing access token!"
+    }
+```
+
+- **Error (404 Not Found):**
+  - If the user with the specified ID is not found.
+
+```json
+    {
+        "response": "Failure",
+        "message": "Resource not found!"
+    }
+```
+
+
+## Get All Users Endpoint
+
+### Endpoint
+
+- **URL:** `http://localhost/api/users`
+- **Method:** `GET`
+
+
+```bash
+curl -X GET http://0.0.0.0:8080/api/users -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```
+
+### Request
+
+- **Headers:**
+  - `Authorization: Bearer YOUR_ACCESS_TOKEN`
+
+### Response
+
+- **Success (200 OK):**
+  - Returns user data in JSON format.
+
+```json
+   {
+    "response": "Success",
+    "data":
+        [
+            {
+            "id": 1,
+            "name": "Zalak Hirani",
+            "email": "zalak.hirani@gmail.com"
+            },
+            {
+            "id": 2,
+            "name": "John Smith",
+            "email": "John.smith@gmail.com"
+            },
+            {
+            "id": 3,
+            "name": "James Bond",
+            "email": "james.bond@gmail.com"
+            },
+            {
+            "id": 4,
+            "name": "Phillips Doe",
+            "email": "phillips.doe@gmail.com"
+            },
+            {
+            "id": 5,
+            "name": "Katie Jane",
+            "email": "katie.jane@gmail.com"
+            }
+        ]
+    }
+```
+
+- **Error (401 Unauthorized):**
+  - If the access token is missing or invalid.
+
+```json
+    {
+        "response": "Failure",
+        "message": "Invalid or missing access token!"
+    }
+```
+
+## Run PHPUnit tests:
+
+```bash
+    /vendor/bin/phpunit
+```
+
+    If you're using Docker, you can run tests in a Docker container:
+
+```bash
+    docker-compose up -d
+    docker-compose exec app ./vendor/bin/phpunit
+```
+
+## Writing Tests
+
+Tests are located in the `tests` directory. You can add your own test cases or modify existing ones based on your application's needs.
+
+### Stop the Containers
+
+To stop the Docker containers, run:
+
+```bash
+docker-compose down
