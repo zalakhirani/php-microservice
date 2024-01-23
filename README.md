@@ -191,7 +191,7 @@ curl -X GET http://0.0.0.0:8080/api/users -H "Authorization: Bearer YOUR_ACCESS_
 ## Run PHPUnit tests:
 
 ```bash
-    /vendor/bin/phpunit
+    /vendor/bin/phpunit To run in docker container go to main folder and run ./vendor/bin/phpunit
 ```
 
 ## Writing Tests
