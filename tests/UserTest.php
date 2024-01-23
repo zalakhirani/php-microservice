@@ -9,7 +9,7 @@ class UserTest extends TestCase
      */
     public function testWithUnauthorized(){
 
-        $this->get("users", []);
+        $this->get("api/users", []);
         $this->seeStatusCode(401);
     }
 
@@ -19,7 +19,7 @@ class UserTest extends TestCase
     public function testShouldReturnAllUsers(){
 
 
-        $this->withoutMiddleware()->get('/users');
+        $this->withoutMiddleware()->get('api/users');
 
         $this->seeStatusCode(200);
         $this->seeJsonStructure([
@@ -37,7 +37,7 @@ class UserTest extends TestCase
      * /users/id [GET]
      */
     public function testShouldReturnUser(){
-        $this->withoutMiddleware()->get("users/2", []);
+        $this->withoutMiddleware()->get("api/users/2", []);
         $this->seeStatusCode(200);
         $this->seeJsonStructure(
             ['data' =>
@@ -54,7 +54,7 @@ class UserTest extends TestCase
      * /users/id [GET]
      */
     public function testShouldReturnUserNotFound(){
-        $this->withoutMiddleware()->get("users/8", []);
+        $this->withoutMiddleware()->get("api/users/8", []);
         $this->seeStatusCode(404);
     }
 }
