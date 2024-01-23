@@ -60,7 +60,7 @@ Before you begin, make sure you have the following installed on your machine:
     Example:
 
     ```bash
-    curl -X GET http://localhost/api/resource -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+    curl -X GET http://0.0.0.0:8080/api/resource -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
     ```
 
     Replace `YOUR_ACCESS_TOKEN` with the actual Bearer Token you obtained from .env.
@@ -69,7 +69,7 @@ Before you begin, make sure you have the following installed on your machine:
 
 ### Endpoint
 
-- **URL:** `http://localhost/api/users/{id}`
+- **URL:** `http://0.0.0.0:8080/api/users/{id}`
 - **Method:** `GET`
 
 ```bash
@@ -126,7 +126,7 @@ curl -X GET http://0.0.0.0:8080/api/users/1 -H "Authorization: Bearer YOUR_ACCES
 
 ### Endpoint
 
-- **URL:** `http://localhost/api/users`
+- **URL:** `http://0.0.0.0:8080/api/users`
 - **Method:** `GET`
 
 
@@ -194,20 +194,6 @@ curl -X GET http://0.0.0.0:8080/api/users -H "Authorization: Bearer YOUR_ACCESS_
     /vendor/bin/phpunit
 ```
 
-    If you're using Docker, you can run tests in a Docker container:
-
-```bash
-    docker-compose up -d
-    docker-compose exec app ./vendor/bin/phpunit
-```
-
 ## Writing Tests
 
 Tests are located in the `tests` directory. You can add your own test cases or modify existing ones based on your application's needs.
-
-### Stop the Containers
-
-To stop the Docker containers, run:
-
-```bash
-docker-compose down
